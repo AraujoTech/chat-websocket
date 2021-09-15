@@ -1,0 +1,22 @@
+{
+  "name": "chatapp_ezops",
+  "version": "1.0.0",
+  "description": "App for Ezops job  aplication",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelmendonca29/ezops-test-rafaeldemendoncaaraujo.git"
+  },
+  "author": "Rafael de Mendonça Araújo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rafaelmendonca29/ezops-test-rafaeldemendoncaaraujo/issues"
+  },
+  "homepage": "https://github.com/rafaelmendonca29/ezops-test-rafaeldemendoncaaraujo#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
