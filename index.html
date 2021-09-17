@@ -42,13 +42,13 @@
                 }
 
                 function getMessages(){
-                    $.get('http://localhost:3000/messages',(data)=>{
+                    $.get('ec2-23-20-130-94.compute-1.amazonaws.com/messages',(data)=>{
                         data.forEach(addMessages);
                     })
                 }
 
                 function sendMessage(message){
-                    $.post('http://localhost:3000/messages', message)
+                    $.post('ec2-23-20-130-94.compute-1.amazonaws.com/messages', message)
                     }
             })
         </script>
