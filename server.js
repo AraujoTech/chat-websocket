@@ -25,7 +25,8 @@ mongoose.connect(dbUrl,(err)=> {
 var Message = mongoose.model('Message', 
                                       {name: String,
                                        message:String,
-                                       time: String
+                                       time: String,
+                                       ts: Number
                                       })
 
 //ROTAS

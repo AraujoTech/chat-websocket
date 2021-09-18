@@ -8,7 +8,7 @@
         <script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
 
     </head>
-    <body onload=getMessages()>
+    <body>
         <div class="container" >
             <br>
             <div class="jumbotron">
@@ -20,7 +20,9 @@
                 </textarea>
                 <br>
                 <button id="send" class="btn btn-success">Send</button>
-                <div id="bot"></div>
+                <div id="bot">
+
+                </div>
             </div>
             <div id="messages">
             <h3 class="display-4"> History</h3>
@@ -29,18 +31,18 @@
         <script>
             var socket = io();
             var now = new Date ;
-            var time =now.getFullYear() + ' / '+  now.getDate() + ' / ' + now.getMonth()  + ' at ' + now.getHours()+" : " + now.getMinutes() + " : " + now.getSeconds+ " : " + now.getMilliseconds();
+            var time =now.getFullYear() + ' / '+  now.getDate() + ' / ' + now.getMonth()  + ' at ' + now.getHours()+" : " + now.getMinutes() + " : " + now.getSeconds()+ " : " + now.getMilliseconds();
             $(()=>{             
                 $("#send").click(()=>{
                     sendMessage({
                         name:$("#name").val(),
                         message:$("#message").val(),
-                        time: time
+                        time: time,
+                        ts:Date.now()
                     });
 
                     getMessages()
-
-
+                    
                 })
 
                 socket.on('message',addMessages)
@@ -54,7 +56,7 @@
 
                 function getMessages(){
                     $.get('http://localhost:3000/messages',(data)=>{
-                        data.forEach(addMessages);
+                        data.reverse().forEach(addMessages);                                
                     })
                 }
 
@@ -62,8 +64,8 @@
                    $.post('http://localhost:3000/messages', message)
                 }
 
-                function botMessage(message){
-                    if(message.message.toLowerCase().includes("Hi")|| message.message.toLowerCase.includes("Hello")){
+                function botMessage(){
+                    if($("#message").toLowerCase().includes("Hi")|| message.message.toLowerCase.includes("Hello")){
                         $("#bot").append(`
                             <p> Hello ${message.name}, could I help you?</p>
                             <p>Please choose an option:</p>
