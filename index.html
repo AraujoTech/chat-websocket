@@ -8,8 +8,8 @@
         <script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
 
     </head>
-    <body>
-        <div class="container">
+    <body onload=getMessages()>
+        <div class="container" >
             <br>
             <div class="jumbotron">
                 <h1 class="display-4">Send Message</h1>
@@ -20,36 +20,59 @@
                 </textarea>
                 <br>
                 <button id="send" class="btn btn-success">Send</button>
+                <div id="bot"></div>
             </div>
             <div id="messages">
+            <h3 class="display-4"> History</h3>
             </div>
         </div>
         <script>
             var socket = io();
+            var now = new Date ;
+            var time =now.getFullYear() + ' / '+  now.getDate() + ' / ' + now.getMonth()  + ' at ' + now.getHours()+" : " + now.getMinutes() + " : " + now.getSeconds+ " : " + now.getMilliseconds();
             $(()=>{             
                 $("#send").click(()=>{
                     sendMessage({
                         name:$("#name").val(),
-                        message:$("#message").val()
+                        message:$("#message").val(),
+                        time: time
                     });
+
                     getMessages()
+
+
                 })
+
                 socket.on('message',addMessages)
+                
                 function addMessages(message){
                     $("#messages").append(`
                         <h4> ${message.name}</h4>
-                        <p> ${message.message}</p>`)
+                        <p> ${message.message}</p>
+                        <p> ${message.time}`)
                 }
 
                 function getMessages(){
-                    $.get('ec2-44-197-102-109.compute-1.amazonaws.com/messages',(data)=>{
+                    $.get('http://localhost:3000/messages',(data)=>{
                         data.forEach(addMessages);
                     })
                 }
 
                 function sendMessage(message){
-                    $.post('ec2-44-197-102-109.compute-1.amazonaws.com/messages', message)
+                   $.post('http://localhost:3000/messages', message)
+                }
+
+                function botMessage(message){
+                    if(message.message.toLowerCase().includes("Hi")|| message.message.toLowerCase.includes("Hello")){
+                        $("#bot").append(`
+                            <p> Hello ${message.name}, could I help you?</p>
+                            <p>Please choose an option:</p>
+                            <ul>
+                                <li> 1 - What's time is it?</li>
+                                <li> 2 - What's day is today?</li>
+                            </u>`)
                     }
+                }
             })
         </script>
     </body>
