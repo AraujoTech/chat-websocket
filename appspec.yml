@@ -25,6 +25,4 @@ hooks:
   ApplicationStop:
     - location: codedeploy/app_stop.sh
       timeout: 180
-  ValidateService:
-    - location: codedeploy/validate_service.sh
-      timeout: 180
+  
