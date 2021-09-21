@@ -1,9 +1,10 @@
-require('dotenv').config()
+//require('dotenv').config()
 var express = require('express')
-var mongoose = require('mongoose')
+//var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
+var db = require('/../db.js')
 
 var app = express()
 
@@ -11,15 +12,6 @@ var app = express()
 app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
-
-
-//declaração da url de conexão com o banco de dados utilizando variáveis de ambiente
-var dbUrl = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASSWORD+'@'+process.env.DB_CLUSTER +'/'+process.env.DB_NAME +'?retryWrites=true&w=majority'
-
-//Conexão com o banco de dados
-mongoose.connect(dbUrl,(err)=> {
-  console.log('mongodb connected', err)
-});
 
 //Definição do Modelo da Mensagem
 var Message = mongoose.model('Message', 

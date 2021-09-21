@@ -42,6 +42,7 @@
                     });
 
                     getMessages()
+                    botMessage()
                     
                 })
 
@@ -65,9 +66,9 @@
                 }
 
                 function botMessage(){
-                    if($("#message").toLowerCase().includes("Hi")|| message.message.toLowerCase.includes("Hello")){
+                    if($("#message").val().toLowerCase().includes("hi")|| $("#message").val().toLowerCase().includes("hello")){
                         $("#bot").append(`
-                            <p> Hello ${message.name}, could I help you?</p>
+                            <p> Hello, could I help you?</p>
                             <p>Please choose an option:</p>
                             <ul>
                                 <li> 1 - What's time is it?</li>
