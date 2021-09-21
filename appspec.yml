@@ -2,27 +2,16 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /usr/app/
-    overwrite: true
+    destination: /home/ubuntu/aws-codedeploy
 permissions:
-  - object: /usr/app/codedeploy
-    pattern: "*.sh"
-    owner: root
-    group: root
-    mode: 755
+  - object: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
     type:
+      - directory
       - file
 hooks:
-  BeforeInstall:
-    - location: codedeploy/before_install.sh
-      timeout: 180
-  AfterInstall:
-    - location: codedeploy/after_install.sh
-      timeout: 180
   ApplicationStart:
-    - location: codedeploy/app_start.sh
-      timeout: 180
-  ApplicationStop:
-    - location: codedeploy/app_stop.sh
-      timeout: 180
-  
+    - location: scripts/reload-pm2.sh
+      timeout: 300
+      runas: ubuntu
