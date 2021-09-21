@@ -67,6 +67,9 @@
 
                 function botMessage(){
                     if($("#message").val().toLowerCase().includes("hi")|| $("#message").val().toLowerCase().includes("hello")){
+                        if($('#bot').val() != "" || ($('#bot').val() != null)){
+                            $("#bot").val("");
+                        }
                         $("#bot").append(`
                             <p> Hello, could I help you?</p>
                             <p>Please choose an option:</p>
