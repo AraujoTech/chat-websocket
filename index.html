@@ -29,7 +29,7 @@
             
         </div> 
       <script>
-            var socket = io("http://localhost:3000");
+            var socket = io("http://ec2-44-197-102-109.compute-1.amazonaws.com:3000");
             
             function addZero(num){
                 if (num<=9){
@@ -45,7 +45,7 @@
            
             function renderMessage(message){
                 $("#messages").append('<div id="messages" style="width: 60vw;word-wrap: break-word;padding-right:5vw;"><small>'+message.time+ '</small><strong> '+message.user+'</strong>: '+message.message+' </div>');
-                $('#messages').animate({ scrollTop: 500 }, 50);
+                $('#messages').animate({ scrollTop: 500 }, 100);
             }
            
            
