@@ -12,11 +12,11 @@
         <div class="container" >
             <br>
             <form id="chat">
-                <h1 class="display-4">Send Message</h1>
+                <h1 class="display-4">Rafa's Chat</h1>
                 <br>
                 <input type="text" name="name" id = "name" class="form-control" style="width: 60vw;" placeholder="Name">
                 <br>
-                <div id="messages" class="card" style="height: 50vh;width: 60vw;padding: 1vh 0 0 2vw; overflow: hidden;">
+                <div id="messages" class="card" style="height: 50vh;width: 60vw;padding: 1vh 0 0 2vw; overflow-y: scroll;overflow-x: hidden; scroll-behavior:auto;">
                     
                 </div>
                 <input type="text" name="message" id = "message" class="form-control" style="width: 60vw;" placeholder="Your Message Here">
@@ -44,7 +44,8 @@
             var time = addZero(now.getFullYear()) + '-'+addZero(now.getMonth())+'-'+addZero(now.getDate())+' at '+addZero(now.getHours())+' : '+addZero(now.getMinutes());
            
             function renderMessage(message){
-                $("#messages").append('<div id="messages" style="width: 60vw;word-wrap: break-word;"><small>'+message.time+ '</small><strong> '+message.user+'</strong>: '+message.message+' </div>');
+                $("#messages").append('<div id="messages" style="width: 60vw;word-wrap: break-word;padding-right:5vw;"><small>'+message.time+ '</small><strong> '+message.user+'</strong>: '+message.message+' </div>');
+                $('#messages').animate({ scrollTop: 200 }, 50);
             }
            
            
@@ -52,6 +53,7 @@
            socket.on('previousMessage',(function(messages){
                messages.forEach(message => {
                    renderMessage(message);
+                   $('input[name=name]').val(localStorage.getItem('user'));
                });
            }));
            
@@ -72,10 +74,16 @@
                     };
                     renderMessage(messageObject)
                     socket.emit('sendMessage',messageObject);
+
                     $('input[name=message]').val("");
+                    if(!localStorage.getItem('user'))
+                    localStorage.setItem('user', $('input[name=name]').val())
+
                }
 
            });
+           
+
         </script> 
     </body>
 </html> 

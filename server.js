@@ -29,18 +29,41 @@ var Message = mongoose.model('Message',
                                        time: String,
                                        ts: Number
                                       });
+/* 
+Message.countDocuments({}, function (err, count) {
+  var messageSkip = 0;
+  if((count - 17) <=17){
+    messageSkip = 17;
+  } else{
+    messageSkip = count-17;
+  }
+}); */
+
 
 //Configuração do Socket i.o
 io.on('connection',socket=>{
   console.log('a user is connected');
-//capturando as mensagens do 
-  Message.find({}).sort({_id:1}).limit(17).exec(function (err,messages){
-    socket.emit('previousMessage',messages)
-  });
 
+  Message.countDocuments({}, function (err, count) {
+    var messageSkip = 0;
+    var limits = 15;
+   
+  if((count-limits)>=limits){
+    
+    messageSkip = count-limits; 
+    console.log("O valor de count é %d e o de limits é %d, sendo -> count - (count-limits) = %d. ESTA É A PRIMEIRA CONDIÇÃO",count,limits,messageSkip);
+  } else{
+    messageSkip = limits;
+    console.log("O valor de count é %d e o de limits é %d, messageSkip = %d. ESTA É A SEGUNDA CONDIÇÃO",count,limits,messageSkip);
+  }
+
+//capturando as mensagens do BD
+    Message.find({}).sort({_id:1}).limit(limits).skip(messageSkip).exec(function (err,messages){
+      socket.emit('previousMessage',messages)
+    });
+  });
   socket.on('sendMessage',data => {
     console.log(data);
-    //messages.push(data);
     var message = new Message(data);
     message.save();
     socket.broadcast.emit('receivedMessage',data);
