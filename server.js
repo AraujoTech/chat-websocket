@@ -1,29 +1,29 @@
-const requirejs = require('requirejs');
-const env = require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+import requirejs from 'require.js';
+require('dotenv').config();
+import express, { static } from 'express';
+import { connect, model } from 'mongoose';
+import { json, urlencoded } from 'body-parser';
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 
 
-app.use(express.static(__dirname))
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(static(__dirname))
+app.use(json());
+app.use(urlencoded({extended:false}));
 
 var dbUrl = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASSWORD+'@'+process.env.DB_CLUSTER +'/'+process.env.DB_NAME +'?retryWrites=true&w=majority';
 
 //Conexão com o banco de dados
 
-mongoose.connect(dbUrl,(err)=> {
+connect(dbUrl,(err)=> {
   console.log('mongodb connected', err)
   });
 
 
 //Definição do Modelo da Mensagem
-var Message = mongoose.model('Message', 
+var Message = model('Message', 
                                       {user: String,
                                        message:String,
                                        time: String,
