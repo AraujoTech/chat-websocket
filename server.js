@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-//const socket = require('socket.io-client')('http://localhost:3000')
 
 
 
@@ -46,7 +45,7 @@ io.on('connection',socket=>{
 
   Message.countDocuments({}, function (err, count) {
     var messageSkip = 0;
-    var limits = 15;
+    var limits = count/2;
    
   if((count-limits)>=limits){
     
