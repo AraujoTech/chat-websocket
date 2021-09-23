@@ -1,56 +1,53 @@
-require('dotenv').config()
-var express = require('express')
-mongoose = require('mongoose')
-var bodyParser = require('body-parser')
-var http = require('http').Server(app)
-var io = require('socket.io')(http)
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+//const socket = require('socket.io-client')('http://localhost:3000')
 
-
-var app = express()
 
 
 app.use(express.static(__dirname))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
-var dbUrl = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASSWORD+'@'+process.env.DB_CLUSTER +'/'+process.env.DB_NAME +'?retryWrites=true&w=majority'
+var dbUrl = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASSWORD+'@'+process.env.DB_CLUSTER +'/'+process.env.DB_NAME +'?retryWrites=true&w=majority';
 
 //Conexão com o banco de dados
+
 mongoose.connect(dbUrl,(err)=> {
   console.log('mongodb connected', err)
-});
+  });
+
 
 //Definição do Modelo da Mensagem
 var Message = mongoose.model('Message', 
-                                      {name: String,
+                                      {user: String,
                                        message:String,
                                        time: String,
                                        ts: Number
-                                      })
-//ROTAS
-
-//capturando mensagens do usuário no BD
-app.get('/messages',(req,res)=>{
-  Message.find({},(err,messages)=>{
-    res.send(messages);
-  })
-})
-
-//enviando mensagens do usuário para o BD
-
-app.post('/messages',(req,res)=>{
-  var message = new Message(req.body);
-  message.save((err)=>{
-    if(err)
-      sendStatus(500);
-    io.emit('message',req.body);
-    res.sendStatus(200);
-  })  
-})
+                                      });
 
 //Configuração do Socket i.o
-io.on('connection',()=>{
-  console.log('a user is connected')
+io.on('connection',socket=>{
+  console.log('a user is connected');
+//capturando as mensagens do 
+  Message.find({}).sort({_id:1}).limit(17).exec(function (err,messages){
+    socket.emit('previousMessage',messages)
+  });
+
+  socket.on('sendMessage',data => {
+    console.log(data);
+    //messages.push(data);
+    var message = new Message(data);
+    message.save();
+    socket.broadcast.emit('receivedMessage',data);
+  });
 })
 
-var server= app.listen(3000, () => {console.log('server is running on port ', server.address().port)})
+
+
+server.listen(3000);
+//mongoose.connection.dropCollection('messages')

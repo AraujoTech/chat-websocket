@@ -4,7 +4,8 @@
   "description": "App for Ezops job  aplication",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "nodemon ./server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "express": "^4.17.1",
     "http": "0.0.1-security",
     "mongoose": "^6.0.6",
-    "socket.io": "^4.2.0"
+    "socket.io": "^4.2.0",
+    "socket.io-client": "^4.2.0"
   }
 }

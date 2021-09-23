@@ -5,81 +5,77 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js" integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     </head>
     <body>
         <div class="container" >
             <br>
-            <div class="jumbotron">
+            <form id="chat">
                 <h1 class="display-4">Send Message</h1>
                 <br>
-                <input id = "name" class="form-control" placeholder="Name">
+                <input type="text" name="name" id = "name" class="form-control" style="width: 60vw;" placeholder="Name">
                 <br>
-                <textarea id = "message" class="form-control" placeholder="Your Message Here">
-                </textarea>
-                <br>
-                <button id="send" class="btn btn-success">Send</button>
-                <div id="bot">
-
-                </div>
-            </div>
-            <div id="messages">
-            <h3 class="display-4"> History</h3>
-            </div>
-        </div>
-        <script>
-            var socket = io();
-            var now = new Date ;
-            var time =now.getFullYear() + ' / '+  now.getDate() + ' / ' + now.getMonth()  + ' at ' + now.getHours()+" : " + now.getMinutes() + " : " + now.getSeconds()+ " : " + now.getMilliseconds();
-            $(()=>{             
-                $("#send").click(()=>{
-                    sendMessage({
-                        name:$("#name").val(),
-                        message:$("#message").val(),
-                        time: time,
-                        ts:Date.now()
-                    });
-
-                    getMessages()
-                    botMessage()
+                <div id="messages" class="card" style="height: 50vh;width: 60vw;padding: 1vh 0 0 2vw; overflow: hidden;">
                     
-                })
+                </div>
+                <input type="text" name="message" id = "message" class="form-control" style="width: 60vw;" placeholder="Your Message Here">
+                <br>
+                <button type="submit" id="send" class="btn btn-success">Send</button>
+            </form>
+            <div id="bot">
 
-                socket.on('message',addMessages)
-                
-                function addMessages(message){
-                    $("#messages").append(`
-                        <h4> ${message.name}</h4>
-                        <p> ${message.message}</p>
-                        <p> ${message.time}`)
+            </div>
+            
+        </div> 
+      <script>
+            var socket = io("http://localhost:3000");
+            
+            function addZero(num){
+                if (num<=9){
+                    return "0"+num;
+                } else{
+                    return num;
                 }
+            }
 
-                function getMessages(){
-                    $.get('http://localhost:3000/messages',(data)=>{
-                        data.reverse().forEach(addMessages);                                
-                    })
-                }
 
-                function sendMessage(message){
-                   $.post('http://localhost:3000/messages', message)
-                }
+            var now = new Date();         
+            var time = addZero(now.getFullYear()) + '-'+addZero(now.getMonth())+'-'+addZero(now.getDate())+' at '+addZero(now.getHours())+' : '+addZero(now.getMinutes());
+           
+            function renderMessage(message){
+                $("#messages").append('<div id="messages" style="width: 60vw;word-wrap: break-word;"><small>'+message.time+ '</small><strong> '+message.user+'</strong>: '+message.message+' </div>');
+            }
+           
+           
 
-                function botMessage(){
-                    if($("#message").val().toLowerCase().includes("hi")|| $("#message").val().toLowerCase().includes("hello")){
-                        if($('#bot').val() != "" || ($('#bot').val() != null)){
-                            $("#bot").val("");
-                        }
-                        $("#bot").append(`
-                            <p> Hello, could I help you?</p>
-                            <p>Please choose an option:</p>
-                            <ul>
-                                <li> 1 - What's time is it?</li>
-                                <li> 2 - What's day is today?</li>
-                            </u>`)
-                    }
-                }
-            })
-        </script>
+           socket.on('previousMessage',(function(messages){
+               messages.forEach(message => {
+                   renderMessage(message);
+               });
+           }));
+           
+            socket.on('receivedMessage',(function(message){
+                renderMessage(message);
+            }));
+
+           $('#chat').submit(function(event){
+               event.preventDefault();
+               var user = $('input[name=name]').val();
+               var message = $('input[name=message]').val();
+
+               if(user.length&& message.length){
+                    var messageObject = {
+                        user:user,
+                        message:message,
+                        time: time              
+                    };
+                    renderMessage(messageObject)
+                    socket.emit('sendMessage',messageObject);
+                    $('input[name=message]').val("");
+               }
+
+           });
+        </script> 
     </body>
-</html>
+</html> 
