@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js" integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="./server.js"></script>
+    
     </head>
     <body>
         <div class="container" >
@@ -22,14 +22,12 @@
                 <input type="text" name="message" id = "message" class="form-control" style="width: 60vw;" placeholder="Your Message Here">
                 <br>
                 <button type="submit" id="send" class="btn btn-success">Send</button>
-            </form>
-            <div id="bot">
-
-            </div>
-            
+                <button type="submit" id = 'bot' class = "btn btn-warning">BOT</button>
+            </form>         
         </div> 
       <script>
-            var socket = io("http://ec2-44-197-102-109.compute-1.amazonaws.com:3000");
+            
+var socket = io("http://localhost:3000");
             
             function addZero(num){
                 if (num<=9){
@@ -38,14 +36,21 @@
                     return num;
                 }
             }
-
+            function setUser(){
+                
+                if(!localStorage.getItem('user')){
+                    localStorage.setItem('user', $('input[name=name]').val());
+                } else{
+                    $('input[name=name]').val(localStorage.getItem('user'));
+                }
+            }
 
             var now = new Date();         
             var time = addZero(now.getFullYear()) + '-'+addZero(now.getMonth())+'-'+addZero(now.getDate())+' at '+addZero(now.getHours())+' : '+addZero(now.getMinutes());
            
             function renderMessage(message){
                 $("#messages").append('<div id="messages" style="width: 60vw;word-wrap: break-word;padding-right:5vw;"><small>'+message.time+ '</small><strong> '+message.user+'</strong>: '+message.message+' </div>');
-                $('#messages').animate({ scrollTop: 500 }, 100);
+                $('#messages').animate({ scrollTop: 99999999 }, 100);
             }
            
            
@@ -53,13 +58,27 @@
            socket.on('previousMessage',(function(messages){
                messages.forEach(message => {
                    renderMessage(message);
-                   $('input[name=name]').val(localStorage.getItem('user'));
+                   setUser();
                });
            }));
            
             socket.on('receivedMessage',(function(message){
                 renderMessage(message);
             }));
+
+            $("#bot").click(function(event){
+                event.preventDefault();
+                for (let index = 0; index <=100; index++) {
+                    var messageBot = {
+                        user:"Bot",
+                        message:"Bot Message:" + index,
+                        time: time              
+                    };
+                    
+                  renderMessage(messageBot);
+                  socket.emit('sendMessage',messageBot);
+                }
+            });
 
            $('#chat').submit(function(event){
                event.preventDefault();
@@ -76,14 +95,14 @@
                     socket.emit('sendMessage',messageObject);
 
                     $('input[name=message]').val("");
-                    if(!localStorage.getItem('user'))
-                    localStorage.setItem('user', $('input[name=name]').val())
-
+                    localStorage.setItem('user', $('input[name=name]').val());
+                    
                }
 
            });
            
 
+            
         </script> 
     </body>
 </html> 
