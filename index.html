@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js" integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+        
     </head>
     <body>
         <div class="container" >
@@ -24,7 +24,6 @@
                 <input type="text" name="message" id = "message" class="form-control" style="width: 60vw;" placeholder="Your Message Here">
                 <br>
                 <button type="submit" id="send" class="btn btn-success">Send</button>
-                <button type="submit" id = 'bot' class = "btn btn-warning">BOT</button>
             </form>         
         </div> 
       <script>
@@ -68,19 +67,7 @@
                 renderMessage(message);
             }));
 
-            $("#bot").click(function(event){
-                event.preventDefault();
-                for (let index = 0; index <=100; index++) {
-                    var messageBot = {
-                        user:"Bot",
-                        message:"Bot Message:" + index,
-                        time: time              
-                    };
-                    
-                  renderMessage(messageBot);
-                  socket.emit('sendMessage',messageBot);
-                }
-            });
+           
 
            $('#chat').submit(function(event){
                event.preventDefault();
