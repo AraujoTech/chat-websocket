@@ -14,11 +14,13 @@
             <form id="chat">
                 <h1 class="display-4">Rafa's Chat</h1>
                 <br>
+                <label for="name"></label>
                 <input type="text" name="name" id = "name" class="form-control" style="width: 60vw;" placeholder="Name">
                 <br>
                 <div id="messages" class="card" style="height: 50vh;width: 60vw;padding: 1vh 0 0 2vw; overflow-y: scroll;overflow-x: hidden; scroll-behavior:auto;">
                     
                 </div>
+                <label for="message"></label>
                 <input type="text" name="message" id = "message" class="form-control" style="width: 60vw;" placeholder="Your Message Here">
                 <br>
                 <button type="submit" id="send" class="btn btn-success">Send</button>
@@ -27,7 +29,7 @@
         </div> 
       <script>
             
-var socket = io("http://ec2-44-197-102-109.compute-1.amazonaws.com:3000/");
+            var socket = io("http://ec2-3-239-72-230.compute-1.amazonaws.com");
             
             function addZero(num){
                 if (num<=9){
@@ -46,7 +48,7 @@ var socket = io("http://ec2-44-197-102-109.compute-1.amazonaws.com:3000/");
             }
 
             var now = new Date();         
-            var time = addZero(now.getFullYear()) + '-'+addZero(now.getMonth())+'-'+addZero(now.getDate())+' at '+addZero(now.getHours())+' : '+addZero(now.getMinutes());
+            var time = now.getFullYear() + '-'+ String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+' at '+String(now.getHours()).padStart(2,'0')+' : '+ String(now.getMinutes()).padStart(2,'0');
            
             function renderMessage(message){
                 $("#messages").append('<div id="messages" style="width: 60vw;word-wrap: break-word;padding-right:5vw;"><small>'+message.time+ '</small><strong> '+message.user+'</strong>: '+message.message+' </div>');
@@ -83,7 +85,7 @@ var socket = io("http://ec2-44-197-102-109.compute-1.amazonaws.com:3000/");
            $('#chat').submit(function(event){
                event.preventDefault();
                var user = $('input[name=name]').val();
-               var message = $('input[name=message]').val();
+               var message = $('input[name=message]').val()?$('input[name=message]').val():$('input[name=message]').val("Anonymous");
 
                if(user.length&& message.length){
                     var messageObject = {

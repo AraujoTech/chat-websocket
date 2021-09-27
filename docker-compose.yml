@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  app:
+    container_name: chatsystem
+    restart: always
+    build: .
+    image: rafaelmendonca29/chatsystem
+    ports:
+      - "80:3000"
+    

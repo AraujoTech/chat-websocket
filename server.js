@@ -9,6 +9,7 @@ app.use(express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
+
 var dbUrl = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASSWORD+'@'+process.env.DB_CLUSTER +'/'+process.env.DB_NAME +'?retryWrites=true&w=majority';
 
 //Conexão com o banco de dados
@@ -25,16 +26,6 @@ var Message = mongoose.model('Message',
                                        time: String,
                                        ts: Number
                                       });
-/* 
-Message.countDocuments({}, function (err, count) {
-  var messageSkip = 0;
-  if((count - 17) <=17){
-    messageSkip = 17;
-  } else{
-    messageSkip = count-17;
-  }
-}); */
-
 
 //Configuração do Socket i.o
 io.on('connection',socket=>{
@@ -43,8 +34,9 @@ io.on('connection',socket=>{
   Message.countDocuments({}, function (err, count) {
     var limits = Math.round(count*0.6);
     var messageSkip = count-limits; 
-       if(messageSkip>=100){
+       if(count>=100){
          limits=100;
+         messageSkip = count-limits;
         }
       
     console.log("O valor de count é %d e o de limits é %d, %d deixaram de ser exibidas",count,limits,messageSkip);
