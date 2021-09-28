@@ -20,7 +20,7 @@
       "environment": [
         {
           "name": "DB_CONNECTION",
-          "value": $DB_CONNECTION
+          "value": {$DB_CONNECTION}
         }
       ],
       "resourceRequirements": null,
