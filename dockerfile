@@ -1,7 +1,7 @@
 FROM node:latest
 # Create app directory
 RUN mkdir -p /usr/src/app
-
+ENV DB_CONNECTION=$DB_CONNECTION
 WORKDIR /usr/src/app
 
 COPY package.json  /usr/src/app/package.json
