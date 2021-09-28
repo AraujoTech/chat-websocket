@@ -71,8 +71,8 @@
 
            $('#chat').submit(function(event){
                event.preventDefault();
-               var user = $('input[name=name]').val();
-               var message = $('input[name=message]').val()?$('input[name=message]').val():$('input[name=message]').val("Anonymous");
+               var user = $('input[name=name]').val()?$('input[name=name]').val():$('input[name=name]').val("Anonymous");
+               var message = $('input[name=message]').val();
 
                if(user.length&& message.length){
                     var messageObject = {
