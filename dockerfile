@@ -3,7 +3,7 @@ FROM node:latest
 RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
-ARG DB_CONNECTION = 
+ARG DB_CONNECTION = Connection_Url
 COPY package.json  /usr/src/app/package.json
 COPY package-lock.json  /usr/src/app/package-lock.json
 
