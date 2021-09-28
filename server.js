@@ -60,4 +60,4 @@ io.on('connection',socket=>{
 
 
 server.listen(3000);
-mongoose.connection.dropCollection('messages');
+//mongoose.connection.dropCollection('messages');
