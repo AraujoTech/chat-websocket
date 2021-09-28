@@ -62,7 +62,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: rafaelmendonca/chatsystem-test
+        ECR_REPOSITORY: rafaelmendonca29/chatsystem-test
         IMAGE_TAG: ${{ github.sha }}
       run: |
         # Build a docker container and
