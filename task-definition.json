@@ -20,7 +20,7 @@
       "environment": [
         {
           "name": "DB_CONNECTION",
-          "value": "mongodb+srv://rafaelaraujo:R1R2R34f@ezops.izv1n.mongodb.net/SimpleChat?retryWrites=true&w=majority"
+          "value": {{secrets.DB_CONNECTION}}
         }
       ],
       "resourceRequirements": null,
