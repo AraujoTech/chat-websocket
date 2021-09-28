@@ -30,9 +30,8 @@
       <script>
             
             var socket = io("ec2-34-232-62-166.compute-1.amazonaws.com	");
-            const nUsers = io.engine.clientsCount;
 
-            $("#number-users").html(` <strong>${nUsers}</strong> `);
+            
             function setUser(){
                 
                 if(!localStorage.getItem('user')){
