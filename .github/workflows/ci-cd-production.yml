@@ -24,7 +24,7 @@
 #    and best practices on handling the access key credentials.
 
 
-name: CI
+name: CI/CD PRODUCTION
 
 # Controls when the workflow will run
 on:
