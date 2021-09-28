@@ -1,10 +1,15 @@
 {
   "ipcMode": null,
-  "executionRoleArn": null,
+  "executionRoleArn": "arn:aws:iam::709886733788:role/Env_Role_ChatSystem",
   "containerDefinitions": [
     {
       "dnsSearchDomains": null,
-      "environmentFiles": null,
+      "environmentFiles": [
+        {
+          "value": "arn:aws:s3:::aws-codedeploy-deployments-chatbot/.env",
+          "type": "s3"
+        }
+      ],
       "logConfiguration": null,
       "entryPoint": null,
       "portMappings": [
@@ -17,12 +22,7 @@
       "command": null,
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [
-        {
-          "name": "DB_CONNECTION",
-          "value": "mongodb+srv://rafaelaraujo:R1R2R34f@ezops.izv1n.mongodb.net/SimpleChat?retryWrites=true&w=majority"
-        }
-      ],
+      "environment": [],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": null,
@@ -34,7 +34,7 @@
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "709886733788.dkr.ecr.us-east-1.amazonaws.com/rafaelmendonca/chatsystem:500fd3988a5e021f77d1d4c19b3ec26e128c4abd",
+      "image": "rafaelmendonca/chatsystem",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -56,19 +56,25 @@
   ],
   "placementConstraints": [],
   "memory": null,
-  "taskRoleArn": null,
+  "taskRoleArn": "arn:aws:iam::709886733788:role/Env_Role_ChatSystem",
   "compatibilities": [
     "EXTERNAL",
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:709886733788:task-definition/ChatSystemDeploy:11",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:709886733788:task-definition/ChatSystemDeploy:37",
   "family": "ChatSystemDeploy",
   "requiresAttributes": [
     {
       "targetId": null,
       "targetType": null,
       "value": null,
-      "name": "com.amazonaws.ecs.capability.ecr-auth"
+      "name": "ecs.capability.env-files.s3"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
     }
   ],
   "pidMode": null,
@@ -77,7 +83,7 @@
   ],
   "networkMode": null,
   "cpu": null,
-  "revision": 11,
+  "revision": 37,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
