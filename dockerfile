@@ -1,9 +1,10 @@
+ARG DB_CONNECTION=Connection_Url
 FROM node:latest
 # Create app directory
 RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
-ARG DB_CONNECTION = Connection_Url
+
 COPY package.json  /usr/src/app/package.json
 COPY package-lock.json  /usr/src/app/package-lock.json
 
