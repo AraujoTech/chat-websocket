@@ -34,11 +34,14 @@ io.on('connection',socket=>{
   Message.countDocuments({}, function (err, count) {
     var limits = Math.round(count*0.6);
     var messageSkip = count-limits; 
-       if(count>=100){
-         limits=100;
-         messageSkip = count-limits;
-        }
-      
+    if (count<50)   {
+      messageSkip=0;
+      limits = count;
+      if(count>=100){
+          limits=100;
+          messageSkip = count-limits;
+          }
+      }  
     console.log("O valor de count é %d e o de limits é %d, %d deixaram de ser exibidas",count,limits,messageSkip);
   
 //capturando as mensagens do BD
