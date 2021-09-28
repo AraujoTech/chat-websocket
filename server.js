@@ -36,7 +36,7 @@ io.on('connection',socket=>{
     var messageSkip = count-limits; 
     if (count<50)   {
       messageSkip=0;
-    
+      limits = count;
       if(count>=100){
           limits=100;
           messageSkip = count-limits;
