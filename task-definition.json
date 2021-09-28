@@ -17,12 +17,6 @@
       "command": null,
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [
-        {
-          "name": "DB_CONNECTION",
-          "value": ${{secrets.DB_CONNECTION}}
-        }
-      ],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": null,
