@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 
-var dbUrl = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASSWORD+'@'+process.env.DB_CLUSTER +'/'+process.env.DB_NAME +'?retryWrites=true&w=majority';
+var dbUrl = process.env.DB_CONNECTION;
 
 //Conexão com o banco de dados
 
