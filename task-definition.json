@@ -51,7 +51,7 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "chatsystem"
+      "name": "Chatsystem"
     }
   ],
   "placementConstraints": [],
@@ -61,7 +61,7 @@
     "EXTERNAL",
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:709886733788:task-definition/ChatSystemDeploy:36",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:709886733788:task-definition/ChatSystemDeploy:37",
   "family": "ChatSystemDeploy",
   "requiresAttributes": [
     {
@@ -83,7 +83,7 @@
   ],
   "networkMode": null,
   "cpu": null,
-  "revision": 36,
+  "revision": 37,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
