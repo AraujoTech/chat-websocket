@@ -30,7 +30,7 @@ var Message = mongoose.model('Message',
 //Configuração do Socket i.o
 io.on('connection',socket=>{
   console.log('a user is connected');
-
+  
   Message.countDocuments({}, function (err, count) {
     var limits = Math.round(count*0.6);
     var messageSkip = count-limits; 
@@ -55,7 +55,7 @@ io.on('connection',socket=>{
     message.save();
     socket.broadcast.emit('receivedMessage',data);
   });
-})
+});
 
 
 
