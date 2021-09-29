@@ -11,12 +11,7 @@ const io = require("socket.io")(server, {
   }
 });
 
-var corsOptions = {
-  origin: 'https://ec2-34-232-62-166.compute-1.amazonaws.com',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-
+app.options('*', cors()) 
 
 app.use(express.static(__dirname));
 app.use(express.json());
