@@ -75,7 +75,7 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: tasks/task-definition-test.json
+        task-definition: task-definition-test.json
         container-name: ChatSystemTest
         image: ${{ steps.build-image.outputs.image }}
 
