@@ -1,15 +1,24 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
+const cors = require('cors')
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "https://ec2-34-232-62-166.compute-1.amazonaws.com",
+    methods: ["GET", "POST"]
+  }
+});
+
 
 
 
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(cors())
+
 
 var dbUrl = process.env.DB_CONNECTION;
 
