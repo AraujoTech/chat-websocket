@@ -1,6 +1,6 @@
 
 require('./db');
-require('./model.mjs');
+require('./model.js');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);

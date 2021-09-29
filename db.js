@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./model.mjs');
+require('./model.js');
 const mongoose = require('mongoose');
 
 
