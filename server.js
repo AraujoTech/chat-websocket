@@ -1,6 +1,6 @@
 
-require('./db');
-require('./model.js');
+require('dotenv').config();
+const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
@@ -11,6 +11,19 @@ const io = require('socket.io')(server);
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+
+var dbUrl = process.env.DB_CONNECTION;
+
+mongoose.connect(dbUrl,(err)=> {
+    console.log('mongodb connected', err)
+});
+
+var Message = mongoose.model('Message', 
+                                      {user: String,
+                                       message:String,
+                                       time: String,
+                                       ts: Number
+                                      });
 
 //Configuração do Socket i.o
 io.on('connection',socket=>{
