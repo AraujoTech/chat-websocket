@@ -77,7 +77,5 @@ io.on('connection',socket=>{
 
 
 
-app.listen(80, function () {
-  console.log('CORS-enabled web server listening on port 80')
-})
+app.listen(3000);
 server.listen(3000);
