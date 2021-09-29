@@ -1,31 +1,16 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
+
+require('./db');
+require('./model.mjs');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+
+
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
-
-
-var dbUrl = process.env.DB_CONNECTION;
-
-//Conexão com o banco de dados
-
-mongoose.connect(dbUrl,(err)=> {
-  console.log('mongodb connected', err)
-  });
-
-
-//Definição do Modelo da Mensagem
-var Message = mongoose.model('Message', 
-                                      {user: String,
-                                       message:String,
-                                       time: String,
-                                       ts: Number
-                                      });
 
 //Configuração do Socket i.o
 io.on('connection',socket=>{
@@ -47,10 +32,9 @@ io.on('connection',socket=>{
 //capturando as mensagens do BD
    Message.find({}).sort({_id:1}).limit(limits).skip(messageSkip).exec(function (err,messages){
       socket.emit('previousMessage',messages)
-      //console.log(messages);
+      
     });
   });
-
 
   socket.on('sendMessage',data => {
     console.log(data);
@@ -62,5 +46,5 @@ io.on('connection',socket=>{
 
 
 
+
 server.listen(3000);
-//mongoose.connection.dropCollection('messages');

@@ -1,4 +1,7 @@
-### dotenv ###
+### KEYS###
+server.crt
+server.key
+ssh/
 
 ### Linux ###
 *~
