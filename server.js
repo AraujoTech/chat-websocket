@@ -11,7 +11,7 @@ const io = require("socket.io")(server, {
   }
 });
 
-var allowlist = ['http://example1.com', 'http://example2.com']
+var allowlist = ["https://ec2-34-232-62-166.compute-1.amazonaws.com", "http://ec2-34-232-62-166.compute-1.amazonaws.com"]
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
