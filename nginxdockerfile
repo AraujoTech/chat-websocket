@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 FROM nginx:alpine 
 COPY ./default.conf /etc/nginx/conf.d/
 
 
+=======
+FROM nginx:alpine 
+COPY ./default.conf /etc/nginx/conf.d/
+
+
+>>>>>>> 0731150840605761dc1f7213238ee8787e58d4ca
