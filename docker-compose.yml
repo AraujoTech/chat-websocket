@@ -1,10 +1,46 @@
 version: '3.9'
 services:
+     
   app:
     container_name: chatsystem
     restart: always
     build: .
-    image: rafaelmendonca29/chatsystem
+    hostname: chatsystem
     ports:
-      - "80:3000"
+      - "3000:3000"
+    depends_on:
+      - mongo
     
+    networks:
+      - appnetwork
+
+  mongo:
+    container_name: mymongoDB
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - appnetwork
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: nginxdockerfile
+    ports:
+      - "80:80" 
+    links:
+      - app:server
+    networks:
+      - appnetwork
+
+networks:
+  appnetwork:
+   
+  
+
+  
+
