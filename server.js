@@ -1,4 +1,4 @@
-require('dotenv').config();
+//require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
@@ -10,22 +10,27 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 
-var dbUrl = process.env.DB_CONNECTION;
+//var dbUrl = 'mongodb://mongo/mymongoDB';
 
 //Conexão com o banco de dados
 
-mongoose.connect(dbUrl,(err)=> {
-  console.log('mongodb connected', err)
-  });
+mongoose
+  .connect(
+    'mongodb://mongo/mymongoDB',
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
+  const Message = require('./models/Message');
 
 //Definição do Modelo da Mensagem
-var Message = mongoose.model('Message', 
-                                      {user: String,
-                                       message:String,
-                                       time: String,
-                                       ts: Number
-                                      });
+// var Message = mongoose.model('Message', 
+//                                       {user: String,
+//                                        message:String,
+//                                        time: String,
+//                                        ts: Number
+//                                       });
 
 //Configuração do Socket i.o
 io.on('connection',socket=>{
